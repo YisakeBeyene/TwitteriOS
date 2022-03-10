@@ -27,10 +27,12 @@ class HomeTableViewController: UITableViewController {
     
     @objc func loadTweets(){
         
-        let myUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json"
-        let myParams = ["count": 10]
+        numberOfTweet = 20
         
-        TwitterAPICaller.client?.getDictionariesRequest(url: myUrl, parameters: myParams, success: {(tweets: [NSDictionary]) in
+        let myUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+        let myParams = ["count": numberOfTweet]
+        
+        TwitterAPICaller.client?.getDictionariesRequest(url: myUrl, parameters: myParams as [String : Any], success: {(tweets: [NSDictionary]) in
 
             self.tweetArray.removeAll()
 
@@ -45,19 +47,40 @@ class HomeTableViewController: UITableViewController {
             print(Error.localizedDescription)
             print("Could not retreive tweets! Oh nooo!!")
         })
-        
-        
-//
-        
-//        TwitterAPICaller.client?.getDictionariesRequest(url: myUrl, parameters: myParams, success: { tweets in
-//            for tweet in tweets {
-//                print(tweet)
-//            }
-//        }, failure: { Error in
-//            print(Error.localizedDescription)
-//            print("Could not retreive tweets! Oh no!!")
-//        })
     }
+    
+    
+    
+    func loadMoreTweets(){
+        
+        numberOfTweet = numberOfTweet + 20
+        
+        let myUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+        let myParams = ["count": numberOfTweet]
+        
+        TwitterAPICaller.client?.getDictionariesRequest(url: myUrl, parameters: myParams as [String : Any], success: {(tweets: [NSDictionary]) in
+
+            self.tweetArray.removeAll()
+
+            for tweet in tweets{
+                self.tweetArray.append(tweet)
+            }
+            
+            self.tableView.reloadData()
+            
+        }, failure: { Error in
+            print(Error.localizedDescription)
+            print("Could not retreive tweets! Oh nooo!!")
+        })
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row+1 == tweetArray.count{
+            loadMoreTweets()
+        }
+    }
+    
     
     @IBAction func onLogout(_ sender: Any) {
         
