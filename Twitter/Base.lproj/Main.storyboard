@@ -104,7 +104,7 @@
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" image="retweet-icon" title=""/>
                                             <connections>
-                                                <action selector="retweet:" destination="LNR-66-5SO" eventType="touchUpInside" id="I1M-lf-mOy"/>
+                                                <action selector="retweet:" destination="LNR-66-5SO" eventType="touchUpInside" id="as8-YF-0oi"/>
                                             </connections>
                                         </button>
                                     </subviews>
